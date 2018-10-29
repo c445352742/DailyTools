@@ -1,0 +1,16 @@
+* {
+  font-family: Courier, monospace;
+  font-size: 20px;
+}
+
+div {
+  margin: 0 auto;
+  width: 1200px;
+  margin-bottom: 10px;
+  border-bottom:1px solid black; 
+  padding-bottom: 10px;
+}
+
+span {
+  color: #d7191a;
+}
