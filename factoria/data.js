@@ -23,4 +23,14 @@ var data = {
     name: 'copperPlate',
     time: 0.5
   },
+  ironOre: {
+    material: [],
+    name: 'ironOre',
+    time: null
+  },
+  copperOre: {
+    material: [],
+    name: 'ironOre',
+    time: null
+  },
 }
