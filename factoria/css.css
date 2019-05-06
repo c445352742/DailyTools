@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier New', Courier, monospace;
+  box-sizing: border-box;
+}
+
+.btn {
+  font-size: 16px;
+  border: 1px solid #000;
+  color: #000;
+  display: inline-block;
+  border-radius: 4px;
+  line-height: 24px;
+  padding: 0 10px;
+  min-width: 40px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #fff;
+}
+
+.left {
+  float: left;
+  position: fixed;
+  overflow-y: auto;
+  background: #c8daff;
+  width: 250px;
+  height: 100vh;
+  padding: 15px;
+}
+
+.search {
+  margin: 10px;
+}
+
+.item {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: #cccccc;
+}
+
+.main {
+  margin-left: 260px;
+  overflow: auto;
+}
+.sum{
+  border: 1px dashed black;
+  margin: 10px 10px 10px 260px;
+  padding: 5px;
+}
+.block{
+  display: inline-block;
+}
