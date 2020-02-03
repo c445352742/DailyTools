@@ -1,0 +1,26 @@
+.card {
+  border-radius: 8px;
+  width: 800px;
+  height: 400px;
+  background: #ddd;
+  margin: 30px auto;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.line1 {
+  font-size: 40px;
+}
+
+.line2 {
+  font-size: 40px;
+}
+
+.rollup{
+  transform: rotateX(360deg);
+  transition: all .5s;
+}
+.rollleft{
+  transform: rotateY(-360deg);
+  transition: all .5s;
+}
