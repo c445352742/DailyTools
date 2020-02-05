@@ -1,3 +1,6 @@
+*{
+  font-family: 'Courier New', Courier, monospace;
+}
 .card {
   border-radius: 8px;
   width: 800px;
@@ -6,6 +9,7 @@
   margin: 30px auto;
   padding: 40px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .line1 {
@@ -13,14 +17,31 @@
 }
 
 .line2 {
-  font-size: 40px;
+  font-size: 26px;
 }
 
-.rollup{
+.rollup {
   transform: rotateX(360deg);
-  transition: all .5s;
+  transition: all .3s;
 }
-.rollleft{
+
+.rollleft {
   transform: rotateY(-360deg);
-  transition: all .5s;
+  transition: all .3s;
+}
+
+.btn {
+  font-size: 22px;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 4px 10px;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+.page{
+  position: absolute;
+  left:40px;
+  font-size: 18px;
+  bottom: 20px;
 }
