@@ -5,6 +5,7 @@ $(function () {
     up: 38,
     left: 37,
     right: 39,
+    space: 32
   }
   var index = -1;
   var time = 300;
@@ -32,13 +33,21 @@ $(function () {
       down();
     }
   })
-
+  $('.click,.page').click(function () {
+    down();
+  })
+  $('.tr').click(function () {
+    left();
+  })
   $(document).keydown(function (e) {
     if (!enable) { return; }
     enable = false
     switch (e.keyCode) {
       case key.up:
         up();
+        break;
+      case key.space:
+        down();
         break;
       case key.down:
         down();
@@ -68,6 +77,11 @@ $(function () {
       index = index % lib.length
       $('.page').html(index + 1)
       $('.line1').html(lib[index].word)
+      if (lib[index].flag == 'forgotten') {
+        $('.card').css({ background: '#fcc' })
+      } else {
+        $('.card').css({ background: '#fda' })
+      }
     }, time / 2)
 
     flag = 'up'
@@ -82,8 +96,14 @@ $(function () {
     setTimeout(function () {
       index--;
       $('.page').html(index + 1)
-      index = (index+lib.length) % lib.length
+      index = (index + lib.length) % lib.length
+      index = (index > 0 ? (index) : (lib.length))
       $('.line1').html(lib[index].word)
+      if (lib[index].flag == 'forgotten') {
+        $('.card').css({ background: '#fcc' })
+      } else {
+        $('.card').css({ background: '#fda' })
+      }
     }, time / 2)
     flag = 'up'
   }
