@@ -29,11 +29,6 @@ function a() {
     meaning: 'adj. 永恒的；不朽的',
     flag: 'forgotten'
   }, {
-    word: 'intrigue',
-    phonetic: '/ɪnˈtriːɡ/ ',
-    meaning: 'n. 阴谋；诡计；激起…的兴趣；',
-    flag: 'forgotten'
-  }, {
     word: 'occasional',
     phonetic: '/əˈkeɪʒənl/ ',
     meaning: 'adj. 偶然的，临时的；',
