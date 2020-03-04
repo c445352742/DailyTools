@@ -1,0 +1,98 @@
+* {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+
+.card {
+  border-radius: 8px;
+  width: 800px;
+  height: 400px;
+  background: #fda;
+  margin: 30px auto;
+  padding: 40px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.line1 {
+  font-size: 40px;
+}
+
+.line2 {
+  font-size: 26px;
+}
+
+.rollup {
+  transform: rotateX(360deg);
+  transition: all .3s;
+}
+
+.rollleft {
+  transform: rotateY(-360deg);
+  transition: all .3s;
+}
+
+.btn {
+  font-size: 22px;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 4px 10px;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.page {
+  cursor: pointer;
+  background: #000;
+  color: #fff;
+  position: absolute;
+  left: 40px;
+  font-size: 18px;
+  bottom: 10px;
+  padding: 10px 20px;
+}
+
+.click {
+  cursor: pointer;
+  background: #000;
+  color: #fff;
+  position: absolute;
+  left: 80px;
+  font-size: 18px;
+  bottom: 10px;
+  padding: 10px 10px;
+}
+
+.tr {
+  cursor: pointer;
+  background: #000;
+  color: #fff;
+  position: absolute;
+  right: 80px;
+  font-size: 18px;
+  bottom: 10px;
+  padding: 10px 10px;
+}
+
+
+
+
+.bar{
+  background: #c3cad6;
+}
+ .bar .band {
+  height: 100%;
+  float: left;
+  z-index: 0;
+  text-align: center;
+}
+.bar .span {
+  height: 100%;
+  font-size: 12px;
+  overflow: visible;
+  text-align: center;
+  z-index: 99;
+  width: 40px;
+  position: absolute;
+  background: transparent;}
