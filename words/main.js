@@ -16,6 +16,13 @@ $(function () {
   r();
   down('init');
 
+
+  var count=0
+  setInterval(() => {
+    console.log('pause',count)
+    count=0
+  }, 1000)
+
   $('.btn').click(function () {
     if (libname == 'top100') {
       lib = JSON.parse(JSON.stringify(all))
@@ -40,6 +47,7 @@ $(function () {
     left();
   })
   $(document).keydown(function (e) {
+    count++;
     if (!enable) { return; }
     enable = false
     switch (e.keyCode) {
