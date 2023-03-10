@@ -146,8 +146,30 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
 ## scp工具
 
 发送文件到远程地址（参数互换为下载远程文件到本地）
+
     scp -P2222 /root/from.sql root@10.0.112.10:/root/to.sql 
     scp -P2222 /root/from.sql root@10.0.112.10:/root 指定目标文件名或只指定文件夹 
+
+## npm
+### nrm显示BUG
+
+cli.js 211行
+
+    if (hasOwnProperty(customRegistries, name) && (name in registries || customRegistries[name].registry #原代码
+    if (hasOwnProperty(customRegistries, name) || (name in registries || customRegistries[name].registry #更正后
+### npm包
+列出全局包
+
+    npm install -g npm@9.6.0
+查看安装包 packageName 最新发布的版本信息
+
+    npm view packageName version
+更新大版本下，最新包
+
+    npm update packageName (-D | -S)
+更新最新包
+
+    npm install --save vue@latest
 
 # 项目
 
@@ -260,24 +282,8 @@ git mr命令内容
     [url "ssh://"]
         insteadOf = https://
 
-# tcp代理
+# win tcp代理
 可以将代理视为转发服务器。listenaddress 服务器（本地）ip地址，listenport 服务器端口。connectaddress目标远程主机的ip地址(支持域名)
 connectport目标端口 
 
     netsh interface portproxy add v4tov4 listenaddress=localaddress listenport=localport connectaddress=destaddress  connectport=destport
-
-
-
-
-
-# 0116
-
-1.需要 任务修改货品接口
-2.需要 直接创建任务
-3./glory_wms/iw/task/materials/get?iw_task_id=9e56a11c-2c6b-409f-b4ea-47a9a5249920 里 material_list
-元素 order_id: "9e56a11c-2c6b-409f-b4ea-47a9a5249920" 这是taskid。
-/glory_wms/order/node_table_data/get 这个接口也是这样，是正确的。两个接口数值混了
-
-
-
-添加详细网络错误弹窗，全局统一提示网络错误
