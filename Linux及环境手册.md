@@ -11,7 +11,7 @@
     systemctl stop firewalld.service basic.target
 
 
-## 网ka设置
+## 网fjsdjjjjjjJJ设置
 
     vi /etc/sysconfig/network-scripts/ifcfg-ens33
 
@@ -147,8 +147,8 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
 
 发送文件到远程地址（参数互换为下载远程文件到本地）
 
-    scp -P2222 /root/from.sql root@10.0.112.10:/root/to.sql 
-    scp -P2222 /root/from.sql root@10.0.112.10:/root 指定目标文件名或只指定文件夹 
+    scp -P2222 /root/from.sql root@10.0.112.10:22/root/to.sql 
+    scp -P2222 /root/from.sql root@10.0.112.10:22/root 指定目标文件名或只指定文件夹，只需要目标端口 
 
 ## npm
 ### nrm显示BUG
@@ -172,6 +172,7 @@ cli.js 211行
     npm install --save vue@latest
 
 # 项目
+  scp E:\vm\share_s\Linux及环境手册.md "chai@192.168.116.130:22/gold/DailyTools/Linux及环境手册.md"
 
 ## ionic
 酌情修改id：capacitor.config
@@ -243,7 +244,7 @@ ls-remote -h -t ssh://git@github.com/sohee-lee7/Squire.git
     密钥命令格式
 	git clone ssh://git@provider.com:userName/projectName.git --config core.sshCommand="ssh -i ~/location/to/private_ssh_key"。 对于需要固定key的仓库可以直接写入.git/config 一劳永逸
 	克隆命令
-    git clone  ssh://git@49.233.182.33:9922/cast/ldq_scada.git
+    git clone  ssh://git@49.233.182.33:9922/cast/ldq_scada.git /home/user //克隆到指定位置
 查看远程地址
 
     git remote -v
@@ -287,3 +288,32 @@ git mr命令内容
 connectport目标端口 
 
     netsh interface portproxy add v4tov4 listenaddress=localaddress listenport=localport connectaddress=destaddress  connectport=destport
+
+
+deb文件安装 sudo dpkg -i mypackage.deb或sudo apt install ./pack.deb
+
+sudo apt-get install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+安装zsh及oh my zsh配置
+chsh -s /bin/zsh #将zsh替换为你的默认shell
+
+修改权限
+chmod 777 a.md 权限顺序为所有者，用户组，其他人
+
+用户添加sudo 先cd到/etc/sudoers下，修改权限。找到root ALL = (ALL) ALL这一行，在下一行加入username ALL = (ALL) ALL，再复原权限
+
+sudo systemctl set-default multi-user.target //开机进命令行
+
+sudo systemctl set-default graphical.target //开机进gui
+
+sudo apt -y install task-gnome-desktop //安装gui
+export PATH=$PATH:/sbin/  //新机未连接环境变量，reboot等不可用
+
+换源 /etc/apt/sources.list 添加
+deb      https://mirrors.huaweicloud.com/debian            bullseye           main contrib
+deb      https://mirrors.huaweicloud.com/debian-security            bullseye-security           main contrib
+deb-src      https://mirrors.huaweicloud.com/debian-security            bullseye-security           main contrib
+apt update  #更新
+
+
+ docker-slim 对镜像进行瘦身 https://zhuanlan.zhihu.com/p/608032293
