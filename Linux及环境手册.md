@@ -1,4 +1,4 @@
-# Centos
+# Linux(default:centos)
 
 ## 网络设置
 防火墙状态
@@ -11,7 +11,7 @@
     systemctl stop firewalld.service basic.target
 
 
-## 网络设置
+## 网ka设置
 
     vi /etc/sysconfig/network-scripts/ifcfg-ens33
 
