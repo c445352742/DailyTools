@@ -292,6 +292,8 @@ connectport目标端口
 
 deb文件安装 sudo dpkg -i mypackage.deb或sudo apt install ./pack.deb
 
+sudo apt install fcitx5 fcitx5-chinese-addons #重启后，打开该软件的图标
+
 sudo apt-get install zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 安装zsh及oh my zsh配置
@@ -300,7 +302,9 @@ chsh -s /bin/zsh #将zsh替换为你的默认shell
 修改权限
 chmod 777 a.md 权限顺序为所有者，用户组，其他人
 
-用户添加sudo 先cd到/etc/sudoers下，修改权限。找到root ALL = (ALL) ALL这一行，在下一行加入username ALL = (ALL) ALL，再复原权限
+用户添加sudo 
+apt install sudo
+先cd到/etc/sudoers下，修改权限。找到root ALL = (ALL) ALL这一行，在下一行加入username ALL = (ALL) ALL，再复原权限
 
 sudo systemctl set-default multi-user.target //开机进命令行
 
@@ -310,10 +314,19 @@ sudo apt -y install task-gnome-desktop //安装gui
 export PATH=$PATH:/sbin/  //新机未连接环境变量，reboot等不可用
 
 换源 /etc/apt/sources.list 添加
-deb      https://mirrors.huaweicloud.com/debian            bullseye           main contrib
-deb      https://mirrors.huaweicloud.com/debian-security            bullseye-security           main contrib
-deb-src      https://mirrors.huaweicloud.com/debian-security            bullseye-security           main contrib
+deb https://mirrors.huaweicloud.com/debian     xxxx xxxx xxx
+deb https://mirrors.huaweicloud.com/debian-security  xxxx xxxx xxx
+deb-src https://mirrors.huaweicloud.com/debian-security    xxxx xxxx xxx
 apt update  #更新
 
 
  docker-slim 对镜像进行瘦身 https://zhuanlan.zhihu.com/p/608032293
+
+ sudo cat /proc/version
+
+ ssh name@192.168.116.130
+
+ scp  E:\2023\Server\Linux及环境手册.md "chai@192.168.116.130:/gold/Linux及环境手册.md"  
+
+
+ git config --global user.name "username"
