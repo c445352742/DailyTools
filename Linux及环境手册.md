@@ -108,6 +108,10 @@ deb文件安装，两种
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     chsh -s /bin/zsh  #将zsh替换为你的默认shell
 
+查看是否在使用
+
+    echo $0
+
 ## 用户添加sudo 
     
     apt install sudo
