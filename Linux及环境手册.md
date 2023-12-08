@@ -1,4 +1,19 @@
-# Linux(default:centos)
+# Linux(命令默认平台:centos)
+
+## 广播
+wall命令
+
+    wall "ff" #广播信息 ff
+
+## 无 vi 写文件
+echo
+
+    echo "content" > 文件名  #覆盖 
+    echo "content" >> 文件名 #追加
+
+---
+
+nano：根据提示，ctrl+x退出，退出过程会提示保存
 
 ## 网络设置
 防火墙状态
@@ -11,7 +26,7 @@
     systemctl stop firewalld.service basic.target
 
 
-## 网fjsdjjjjjjJJ设置
+## 网络设置（centos）
 
     vi /etc/sysconfig/network-scripts/ifcfg-ens33
 
@@ -21,6 +36,22 @@
     systemctl restart docker
     systemctl restart network
 
+## deb安装（debian）
+deb文件安装，两种
+    
+    sudo dpkg -i mypackage.deb
+    sudo apt install ./pack.deb
+
+## 输入法
+
+    字体：sudo apt install fonts-wqy-zenhei
+    位置：sudo apt install locales
+    设置字符集：nano /etc/locale.gen 将zh_CN.UTF-8 UTF-8前面的注释去掉，或者将其填入。
+    lang:nano /etc/locale.conf #在这里创建或修改写入 LANG=zh_CN.UTF-8
+    载入locales：sudo dpkg-reconfigure locales 
+
+    fcitx输入法：sudo apt install fcitx5 fcitx5-chinese-addons #重启后，打开该软件的图标
+
 ## 释放缓存 3级别最高，普通写1
 
     sync  #先同步文件系统
@@ -28,7 +59,20 @@
 
 ## 内存处理器占用
 
-    top -c
+    top -c # shift+m 按内存占用排序。shift+p 按cpu排序
+---
+
+信息解释
+
+    %cpu
+    0.3% us — 用户空间占用CPU的百分比。
+    66.7% sy — 内核空间占用CPU的百分比。
+    0.0% ni — 改变过优先级的进程占用CPU的百分比
+    33.3% id — 空闲CPU百分比
+    0.0% wa — IO等待占用CPU的百分比
+    0.0% hi — 硬中断（Hardware IRQ）占用CPU的百分比
+    0.0% si — 软中断（Software Interrupts）占用CPU的百分比
+按1,显示多核的使用。按b或x,加亮排序列。
 
 ## 当前目录和文件大小
 
@@ -38,7 +82,38 @@
 
     df -h 
 
-## 添加yum源
+## 环境变量（centos）
+    
+    export PATH=$PATH:/sbin/  #新机未连接，reboot等不可用
+
+## 修改权限
+
+    chmod 777 a.md 权限顺序为所有者，用户组，其他人
+## 安装gui    
+    
+    sudo apt -y install task-gnome-desktop
+
+## 开机模式设置
+开机进命令行
+
+    sudo systemctl set-default multi-user.target
+开机进gui
+
+    sudo systemctl set-default graphical.target 
+
+## zsh
+安装zsh及oh my zsh配置
+
+    sudo apt-get install zsh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    chsh -s /bin/zsh  #将zsh替换为你的默认shell
+
+## 用户添加sudo 
+    
+    apt install sudo
+先cd到/etc/sudoers下，修改权限。找到root ALL = (ALL) ALL这一行，在下一行加入username ALL = (ALL) ALL，再复原权限
+
+## 添加yum源（centos）
 
 清空旧源的相关记录，设置一个空白的目录
 
@@ -50,12 +125,30 @@
 
     yum clean all
     yum makecache
+
+## 修改源（debian）
+向 /etc/apt/sources.list 文件添加
+
+    deb https://mirrors.huaweicloud.com/debian     xxxx xxxx xxx
+    deb https://mirrors.huaweicloud.com/debian-security  xxxx xxxx xxx
+    deb-src https://mirrors.huaweicloud.com/debian-security    xxxx xxxx xxx
+更新包信息
+    
+    apt update 
+
 ## 压缩和解压
 
-    tar -zcvf [目标gz文件] [源目录或文件]
-    tar -zcvf name.tar.gz dir/files  
-    tar -zcvf [源gz文件] [解压目录]
-    tar -zxvf name.tar.gz -C 解压后地址
+压缩：tar -zcvf [目标gz文件] [源目录或文件]
+
+    eg:tar -zcvf name.tar.gz dir/files  
+解压：tar -zcvf [源gz文件] [解压目录]
+
+    eg:tar -zxvf name.tar.gz -C 解压后地址
+
+## ssh
+连接命令
+
+    ssh -p22 name@192.168.116.130
 
 ## ssh配置
 
@@ -119,12 +212,6 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
         Port 22
         IdentityFile C:/Users/Think/.ssh/id_rsa
 
----
-
-无 vi 写文件
-
-    echo "content" > 文件名 #覆盖
-    echo "content" >> 文件名 #追加
 
 ## rsync工具
 
@@ -148,7 +235,7 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
 发送文件到远程地址（参数互换为下载远程文件到本地）
 
     scp -P2222 /root/from.sql root@10.0.112.10:22/root/to.sql 
-    scp -P2222 /root/from.sql root@10.0.112.10:22/root 指定目标文件名或只指定文件夹，只需要目标端口 
+    scp -P2222 /root/from.sql root@10.0.112.10:22/root #指定目标文件名或只指定文件夹，只需要目标端口 
 
 ## npm
 ### nrm显示BUG
@@ -237,6 +324,11 @@ vue导入插件时，使用angula6末尾加上/ngx
 # Git
 ls-remote -h -t ssh://git@github.com/sohee-lee7/Squire.git
 
+## 设置用户
+
+    git config --global user.name "username"
+    git config --global user.email "email" 
+
 ## 克隆仓库
 
 自动使用ssh密钥克隆。 或者指定密钥文件
@@ -290,44 +382,19 @@ connectport目标端口
     netsh interface portproxy add v4tov4 listenaddress=localaddress listenport=localport connectaddress=destaddress  connectport=destport
 
 
-deb文件安装 sudo dpkg -i mypackage.deb或sudo apt install ./pack.deb
 
-sudo apt install fcitx5 fcitx5-chinese-addons #重启后，打开该软件的图标
 
-sudo apt-get install zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-安装zsh及oh my zsh配置
-chsh -s /bin/zsh #将zsh替换为你的默认shell
 
-修改权限
-chmod 777 a.md 权限顺序为所有者，用户组，其他人
 
-用户添加sudo 
-apt install sudo
-先cd到/etc/sudoers下，修改权限。找到root ALL = (ALL) ALL这一行，在下一行加入username ALL = (ALL) ALL，再复原权限
 
-sudo systemctl set-default multi-user.target //开机进命令行
-
-sudo systemctl set-default graphical.target //开机进gui
-
-sudo apt -y install task-gnome-desktop //安装gui
-export PATH=$PATH:/sbin/  //新机未连接环境变量，reboot等不可用
-
-换源 /etc/apt/sources.list 添加
-deb https://mirrors.huaweicloud.com/debian     xxxx xxxx xxx
-deb https://mirrors.huaweicloud.com/debian-security  xxxx xxxx xxx
-deb-src https://mirrors.huaweicloud.com/debian-security    xxxx xxxx xxx
-apt update  #更新
 
 
  docker-slim 对镜像进行瘦身 https://zhuanlan.zhihu.com/p/608032293
 
  sudo cat /proc/version
 
- ssh name@192.168.116.130
-
- scp  E:\2023\Server\Linux及环境手册.md "chai@192.168.116.130:/gold/Linux及环境手册.md"  
 
 
- git config --global user.name "username"
- git config --global user.email "email" 
+
+
+
