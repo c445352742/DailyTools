@@ -89,6 +89,7 @@ deb文件安装，两种
 ## 修改权限
 
     chmod 777 a.md 权限顺序为所有者，用户组，其他人
+
 ## 安装gui    
     
     sudo apt -y install task-gnome-desktop
@@ -241,6 +242,27 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
     scp -P2222 /root/from.sql root@10.0.112.10:22/root/to.sql 
     scp -P2222 /root/from.sql root@10.0.112.10:22/root #指定目标文件名或只指定文件夹，只需要目标端口 
 
+## nvm
+安装
+
+    curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+环境变量生效
+
+    source ~/.bashrc
+查看所有版本
+    
+    nvm ls-remote
+安装一个版本
+
+    nvm install 12.18.1
+已安装的版本切换
+临时
+    nvm use 12.22.0
+永久
+    nvm use 12.22.0
+    nvm alias default 12.22.0
+
+
 ## npm
 ### nrm显示BUG
 
@@ -263,7 +285,6 @@ cli.js 211行
     npm install --save vue@latest
 
 # 项目
-  scp E:\vm\share_s\Linux及环境手册.md "chai@192.168.116.130:22/gold/DailyTools/Linux及环境手册.md"
 
 ## ionic
 酌情修改id：capacitor.config
