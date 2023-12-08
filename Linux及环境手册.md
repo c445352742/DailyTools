@@ -330,3 +330,4 @@ apt update  #更新
 
 
  git config --global user.name "username"
+ git config --global user.email "email" 
