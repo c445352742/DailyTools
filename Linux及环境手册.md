@@ -15,6 +15,20 @@ echo
 
 nano：根据提示，ctrl+x退出，退出过程会提示保存
 
+## 关机
+
+    shutdown -h now
+
+## vim
+|操作|方法|
+| :---: | :---: |
+| 搜索 | 直接输入 /xxx 就是搜索xxx。<br/> *n*,下一个。*N*,上一个。向上搜索,*？xxx* |
+| 撤销 | u |
+| 反撤销 | ctrl + r |
+| 复制行 | yy |
+| 粘贴 | p |
+| 剪切行 | dd |
+
 ## 网络设置
 防火墙状态
 
@@ -406,13 +420,7 @@ connectport目标端口
 
     netsh interface portproxy add v4tov4 listenaddress=localaddress listenport=localport connectaddress=destaddress  connectport=destport
 
-
-
-
-
-
-
-
+# 未完
 
  docker-slim 对镜像进行瘦身 https://zhuanlan.zhihu.com/p/608032293
 
