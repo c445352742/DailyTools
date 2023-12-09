@@ -29,6 +29,10 @@ nano：根据提示，ctrl+x退出，退出过程会提示保存
 | 粘贴 | p |
 | 剪切行 | dd |
 
+## 监控文件刷新，日志
+
+    tail -f /root/cast/log/glory_macs_aip_log/glory_macs_aip.log
+
 ## 网络设置
 防火墙状态
 
@@ -49,6 +53,29 @@ nano：根据提示，ctrl+x退出，退出过程会提示保存
     systemctl restart sshd.service
     systemctl restart docker
     systemctl restart network
+
+## 网络设置（debian）
+
+查看网卡
+
+    ip link
+打开配置文件/etc/network/interfaces，设置内容<br/>
+dhcp
+
+    allow-hotplug ens33
+    iface ens33 inet dhcp
+静态
+
+    auto ens33
+    iface ens33 inet static
+    address 192.168.2.2
+    netmask 255.255.255.0
+    gateway 192.168.2.2
+    dns-nameservers 8.8.4.4 8.8.8.8
+重启网卡
+
+    sudo systemctl restart NetworkManager.service
+
 
 ## deb安装（debian）
 deb文件安装，两种
@@ -96,9 +123,24 @@ deb文件安装，两种
 
     df -h 
 
-## 环境变量（centos）
-    
+## 环境变量（debian）
+常用命令
+
     export PATH=$PATH:/sbin/  #新机未连接，reboot等不可用
+
+自定义全局，在 /etc/environment 或profile中，修改权限后添加
+
+    export PROJ=/sbin
+然后运行
+
+    source /etc/environment
+用户变量在 ~/.bashrc ,操作过程一样
+
+## 自定义命令
+～/.bashrc添加
+
+    alias wh="/gold"
+zsh需要在.zshrc里添加
 
 ## 修改权限
 
@@ -160,9 +202,9 @@ deb文件安装，两种
 压缩：tar -zcvf [目标gz文件] [源目录或文件]
 
     eg:tar -zcvf name.tar.gz dir/files  
-解压：tar -zcvf [源gz文件] [解压目录]
+解压：tar -zxvf [源gz文件] [解压目录]
 
-    eg:tar -zxvf name.tar.gz -C 解压后地址
+    eg:tar -zxvf name.tar.gz -C 解压地址
 
 ## ssh
 连接命令
@@ -323,10 +365,9 @@ vue导入插件时，使用angula6末尾加上/ngx
 安卓默认屏蔽http，需要glory_wms_app\android\app\src\main\AndroidManifest.xml 下application 标签添加
 
     android:usesCleartextTraffic="true"
-## 日志
 
-    tail -f /root/cast/log/glory_macs_aip_log/glory_macs_aip.log
 
+# mysql
 ## 导入mysql
 
 下载数据库 glory_macs-3320  glory_macs_aip-3321 user_micro_service-3322 ldq-moc-3324 ldq-aip-3325
@@ -341,6 +382,11 @@ vue导入插件时，使用angula6末尾加上/ngx
     sh tool/alter_db.sh glory_macs sql/dump.sql
 
 # Docker
+
+## 安装
+
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
 
 ## 镜像
 
