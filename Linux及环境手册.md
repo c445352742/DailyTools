@@ -98,6 +98,10 @@ deb文件安装，两种
     sync  #先同步文件系统
     echo 3 > /proc/sys/vm/drop_caches
 
+## 端口占用
+查看端口1000的占用
+
+    lsof -i:1000
 ## 内存处理器占用
 
     top -c # shift+m 按内存占用排序。shift+p 按cpu排序
@@ -407,7 +411,6 @@ vue导入插件时，使用angula6末尾加上/ngx
     docker exec -it glory_macs_aip_web_1  /bin/bash
 
 # Git
-ls-remote -h -t ssh://git@github.com/sohee-lee7/Squire.git
 
 ## 设置用户
 
@@ -431,6 +434,9 @@ ls-remote -h -t ssh://git@github.com/sohee-lee7/Squire.git
 更新远程分支
 
     git remote update origin -p
+删除远程分支
+
+    git push origin --delete dev
 查看远程分支
 
     git branch -a
