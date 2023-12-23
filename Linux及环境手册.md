@@ -28,6 +28,9 @@ nano：根据提示，ctrl+x退出，退出过程会提示保存
 | 复制行 | yy |
 | 粘贴 | p |
 | 剪切行 | dd |
+### 显示行号
+
+    :set number
 
 ## 监控文件刷新，日志
 
@@ -76,6 +79,9 @@ dhcp
 
     sudo systemctl restart NetworkManager.service
 
+## 操作系统信息
+
+    cat /proc/version
 
 ## deb安装（debian）
 deb文件安装，两种
@@ -146,9 +152,11 @@ deb文件安装，两种
     alias wh="/gold"
 zsh需要在.zshrc里添加
 
-## 修改权限
+## 文件权限
 
     chmod 777 a.md 权限顺序为所有者，用户组，其他人
+    ls -l 显示所有文件和目录的权限，可添加名字显示指定文件的权限
+    ls -ld xxx 显示指定目录的权限
 
 ## 安装gui    
     
@@ -387,13 +395,28 @@ vue导入插件时，使用angula6末尾加上/ngx
 
 # Docker
 
-## 安装
+## 自动安装
 
     curl -fsSL https://get.docker.com -o get-docker.sh
     sudo sh get-docker.sh
+## 权限
+添加docker用户组
+
+    sudo groupadd docker
+添加chai进docker组
+
+    sudo gpasswd -a chai docker
+重启
+
+    systemctl restart docker
 
 ## 镜像
+搜索
 
+    docker search nginx
+换源 新建或修改/etc/docker/daemon.json
+
+    {"registry-mirrors": ["https://registry.cn-hangzhou.aliyuncs.com"]}
 查看镜像
 
     docker images
@@ -403,12 +426,59 @@ vue导入插件时，使用angula6末尾加上/ngx
 提交修改镜像**后缀：`镜像名：tag`**
 
     docker commit [ID] cast:v2.0.0
-加载 camunda
+导入 camunda
 
     docker load -i camunda-20220517.tar
-进入docker虚拟机的控制台
+导出 camunda
+
+    docker save -o camuda.tar camuda:v1.0
+进入docker容器的控制台
 
     docker exec -it glory_macs_aip_web_1  /bin/bash
+docker参数
+
+    -p 端口映射，主机：容器
+    -P 随机端口映射
+    -a 标准输入输出
+    -i 交互式运行
+    -t 重新分配终端，搭配-i使用
+    -d 后台运行
+    -h 指定host
+    -e 指定环境变量
+    -name 指定名字 
+docker-compose参数
+
+    -f 指定文件
+    -p 指定项目名
+    -d 后台运行
+
+docker-compose创建并启动容器
+
+    docker-compose up
+docker-compose停止并删除容器
+
+    docker-compose down
+创建并启动容器
+
+    docker run -itd [name] /bin/bash # -d 后台启动 -it 启动容器终端
+仅启动/停止/重启容器
+
+    docker start [id]
+    docker stop [id]
+    docker restart [id]
+查看容器
+
+    docker ps -a
+删除容器
+
+    docker rm -f [id]
+docker-compose安装
+
+    sudo curl -L https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose #赋予权限
+    docker-compose --version #测试
+
+# iptables
 
 # Git
 
@@ -466,11 +536,21 @@ git mr命令内容
     [url "ssh://"]
         insteadOf = https://
 
+# Nginx
+位置
+
+    /etc/nginx/conf.d/**
+    /etc/nginx/nginx.conf
+重启
+
+    service nginx restart
+
 # win tcp代理
 可以将代理视为转发服务器。listenaddress 服务器（本地）ip地址，listenport 服务器端口。connectaddress目标远程主机的ip地址(支持域名)
 connectport目标端口 
 
     netsh interface portproxy add v4tov4 listenaddress=localaddress listenport=localport connectaddress=destaddress  connectport=destport
+
 
 # 未完
 
