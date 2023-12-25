@@ -88,7 +88,9 @@ deb文件安装，两种
     
     sudo dpkg -i mypackage.deb
     sudo apt install ./pack.deb
+## apt删除包
 
+    apt remove --purge
 ## 输入法
 
     字体：sudo apt install fonts-wqy-zenhei
@@ -133,6 +135,10 @@ deb文件安装，两种
 
     df -h 
 
+## 查看pid
+
+    ps -A
+
 ## 环境变量（debian）
 常用命令
 
@@ -154,7 +160,7 @@ zsh需要在.zshrc里添加
 
 ## 文件权限
 
-    chmod 777 a.md 权限顺序为所有者，用户组，其他人
+    chmod 777 -R a.md 权限顺序为所有者，用户组，其他人
     ls -l 显示所有文件和目录的权限，可添加名字显示指定文件的权限
     ls -ld xxx 显示指定目录的权限
 
@@ -201,10 +207,32 @@ zsh需要在.zshrc里添加
 
 ## 修改源（debian）
 向 /etc/apt/sources.list 文件添加
+华为源
 
-    deb https://mirrors.huaweicloud.com/debian     xxxx xxxx xxx
-    deb https://mirrors.huaweicloud.com/debian-security  xxxx xxxx xxx
-    deb-src https://mirrors.huaweicloud.com/debian-security    xxxx xxxx xxx
+    deb http://mirrors.huaweicloud.com/debian/ bookworm main non-free-firmware
+    deb http://mirrors.huaweicloud.com/debian-security bookworm-security main non-free-firmware
+    deb-src http://mirrors.huaweicloud.com/debian-security bookworm-security main non-free-firmware
+
+中科大源
+    deb https://mirrors.ustc.edu.cn/debian/ bookworm main non-free non-free-firmware contrib
+    deb-src https://mirrors.ustc.edu.cn/debian/ bookworm main non-free non-free-firmware contrib
+    deb https://mirrors.ustc.edu.cn/debian-security/ bookworm-security main
+    deb-src https://mirrors.ustc.edu.cn/debian-security/ bookworm-security main
+    deb https://mirrors.ustc.edu.cn/debian/ bookworm-updates main non-free non-free-firmware contrib
+    deb-src https://mirrors.ustc.edu.cn/debian/ bookwomain non-free non-free-firmware contrib
+    deb https://mirrors.ustc.edu.cn/debian/ bookworm-backports main non-free non-free-firmware contrib
+    deb-src https://mirrors.ustc.edu.cn/debian/ bookworm-backports main non-free non-free-firmware contrib
+网易源
+
+    echo "deb https://mirrors.163.com/debian/ bookworm main non-free non-free-firmware contrib" >> sources.list
+    echo "deb-src https://mirrors.163.com/debian/ bookworm main non-free non-free-firmware contrib" >> sources.list
+    echo "deb https://mirrors.163.com/debian-security/ bookworm-security main" >> sources.list
+    echo "deb-src https://mirrors.163.com/debian-security/ bookworm-security main" >> sources.list
+    echo "deb https://mirrors.163.com/debian/ bookworm-updates main non-free non-free-firmware contrib" >> sources.list
+    echo "deb-src https://mirrors.163.com/debian/ bookworm-updates main non-free non-free-firmware contrib" >> sources.list
+    echo "deb https://mirrors.163.com/debian/ bookworm-backports main non-free non-free-firmware contrib" >> sources.list
+    echo "deb-src https://mirrors.163.com/debian/ bookworm-backports main non-free non-free-firmware contrib" >> sources.list
+
 更新包信息
     
     apt update 
@@ -458,7 +486,12 @@ docker-compose创建并启动容器
 docker-compose停止并删除容器
 
     docker-compose down
-创建并启动容器
+安装网络工具,并查看端口
+
+    apt install iproute2
+    apt install net-tools # ifconfig 工具包
+    ss -ntlp #查看端口 -r,进程解释为协议，ip解释为域名
+创建并启动容器 
 
     docker run -itd [name] /bin/bash # -d 后台启动 -it 启动容器终端
 仅启动/停止/重启容器
@@ -472,6 +505,10 @@ docker-compose停止并删除容器
 删除容器
 
     docker rm -f [id]
+容器互相文件
+
+    docker cp [container_name]:[path] [main_path]
+    docker cp [main_path] [container_name]:[path]
 docker-compose安装
 
     sudo curl -L https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
@@ -536,15 +573,6 @@ git mr命令内容
     [url "ssh://"]
         insteadOf = https://
 
-# Nginx
-位置
-
-    /etc/nginx/conf.d/**
-    /etc/nginx/nginx.conf
-重启
-
-    service nginx restart
-
 # win tcp代理
 可以将代理视为转发服务器。listenaddress 服务器（本地）ip地址，listenport 服务器端口。connectaddress目标远程主机的ip地址(支持域名)
 connectport目标端口 
@@ -552,6 +580,52 @@ connectport目标端口
     netsh interface portproxy add v4tov4 listenaddress=localaddress listenport=localport connectaddress=destaddress  connectport=destport
 
 
+# Nginx
+配置位置
+
+    /etc/nginx/conf.d/**
+    /etc/nginx/nginx.conf
+检查配置文件
+
+    nginx -t
+重启
+
+    systemctl restart nginx
+    nginx -s reload
+开机启动
+    systemctl enable nginx
+
+# mysql
+常用目录
+
+    /usr/bin/mysqld_safe
+    /etc/mysql/mysql.conf.d
+创建用户
+
+    create user 'li'@'%' identified by 'newerp2023';
+
+下载地址，并安装
+
+    wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb
+    dpkg -i mysql-apt-config_0.8.29-1_all.deb # 并安装依赖
+    apt install lsb-release
+    apt update
+# Django
+安装venv
+    
+    apt install python3.11-venv
+指定venv环境
+
+    python3 -m venv /app
+激活venv
+
+    source /app/bin/activate
+退出venv
+
+    deactivate
+安装uwsgi
+
+    python3 -m pip install uwsgi  #需要安装 gcc 和 apt install python3-dev
 # 未完
 
  docker-slim 对镜像进行瘦身 https://zhuanlan.zhihu.com/p/608032293
@@ -560,6 +634,7 @@ connectport目标端口
 
 
 
-
+问题
+1 web没有port端口映射，只有一个expose
 
 
