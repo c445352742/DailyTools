@@ -93,6 +93,7 @@
     markdown all in one
     pylance
     python
+    black formatter
     remote - ssh
     remote - ssh:editing configuration files
     vetur

@@ -232,6 +232,16 @@ zsh需要在.zshrc里添加
     echo "deb-src https://mirrors.163.com/debian/ bookworm-updates main non-free non-free-firmware contrib" >> sources.list
     echo "deb https://mirrors.163.com/debian/ bookworm-backports main non-free non-free-firmware contrib" >> sources.list
     echo "deb-src https://mirrors.163.com/debian/ bookworm-backports main non-free non-free-firmware contrib" >> sources.list
+    
+
+    deb https://mirrors.163.com/debian/ bookworm main non-free non-free-firmware contrib  
+    deb-src https://mirrors.163.com/debian/ bookworm main non-free non-free-firmware contrib  
+    deb https://mirrors.163.com/debian-security/ bookworm-security main  
+    deb-src https://mirrors.163.com/debian-security/ bookworm-security main  
+    deb https://mirrors.163.com/debian/ bookworm-updates main non-free non-free-firmware contrib  
+    deb-src https://mirrors.163.com/debian/ bookworm-updates main non-free non-free-firmware contrib  
+    deb https://mirrors.163.com/debian/ bookworm-backports main non-free non-free-firmware contrib  
+    deb-src https://mirrors.163.com/debian/ bookworm-backports main non-free non-free-firmware contrib  
 
 更新包信息
     
@@ -335,8 +345,8 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
 
 发送文件到远程地址（参数互换为下载远程文件到本地）
 
-    scp -P2222 /root/from.sql root@10.0.112.10:22/root/to.sql 
-    scp -P2222 /root/from.sql root@10.0.112.10:22/root #指定目标文件名或只指定文件夹，只需要目标端口 
+    scp -P2222 /root/from.sql root@10.0.112.10:/root/to.sql 
+    scp -P2222 /root/from.sql root@10.0.112.10:/root #指定目标文件名或只指定文件夹，只需要目标端口 
 
 ## nvm
 安装
@@ -405,21 +415,6 @@ vue导入插件时，使用angula6末尾加上/ngx
 安卓默认屏蔽http，需要glory_wms_app\android\app\src\main\AndroidManifest.xml 下application 标签添加
 
     android:usesCleartextTraffic="true"
-
-
-# mysql
-## 导入mysql
-
-下载数据库 glory_macs-3320  glory_macs_aip-3321 user_micro_service-3322 ldq-moc-3324 ldq-aip-3325
-额外参数 --max_allowed_packet
-
-    mysqldump -uroot -pcastztb2018@ -h127.0.0.1 -P3320 --databases glory_macs > /root/cast/src/glory_macs/sql/dump.sql
-
----
-
-加载
-
-    sh tool/alter_db.sh glory_macs sql/dump.sql
 
 # Docker
 
@@ -507,7 +502,7 @@ docker-compose停止并删除容器
     docker rm -f [id]
 容器互相文件
 
-    docker cp [container_name]:[path] [main_path]
+    docker cp [container_name]:[path] [main_path] # from to
     docker cp [main_path] [container_name]:[path]
 docker-compose安装
 
@@ -610,6 +605,60 @@ connectport目标端口
     dpkg -i mysql-apt-config_0.8.29-1_all.deb # 并安装依赖
     apt install lsb-release
     apt update
+    apt install mysql-server
+root建好库后，向其他用户授权
+
+    grant all privileges on [库名].* to [用户名]@'%' identified by 'mima'; #旧版
+    grant all privileges on ERP.* to 'li'@'%'; #新版，授权
+    revoke all privileges on ERP.* from 'li'@'%'; # 回收授权
+
+    ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456'; #修改对应用户的密码加密模式
+
+显示root权限
+
+    show grants for 'root'@'localhost';
+常规操作
+
+    show databases; #显示所有数据库
+    flush privileges; #刷新权限
+    select user(); #当前用户
+    select version(); #当前版本
+    show variables like 'character%'; #查看字符集
+## sql语句
+
+    show databases;
+    information_schema
+    select user();
+    select version();
+
+    show variables like '%character%';
+    show variables like 'collation%';
+
+    --- 
+
+    use ERP;
+    alter table user modify id varchar(24) primary key;
+    alter table user add column name varchar(20);
+    select * from user  order by id desc;
+    insert into user (id ,name) values('u111','kapcom');
+    update user set name='honkai' where id='u111';
+    delete from user where id=1;
+    show create table user;
+## 导入mysql
+
+下载数据库 glory_macs-3320  glory_macs_aip-3321 user_micro_service-3322 ldq-moc-3324 ldq-aip-3325
+额外参数 --max_allowed_packet
+
+    mysqldump -uroot -pcastztb2018@ -h127.0.0.1 -P3320 --databases glory_macs > /root/cast/src/glory_macs/sql/dump.sql
+
+    mysqldump -uroot -pnewerp2023 -h127.0.0.1 -P8082 --databases ERP > /gold/erp/sql/dump.sql 
+
+---
+
+加载
+
+    sh tool/alter_db.sh glory_macs sql/dump.sql
+
 # Django
 安装venv
     
