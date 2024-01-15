@@ -153,11 +153,12 @@ deb文件安装，两种
 用户变量在 ~/.bashrc ,操作过程一样
 
 ## 自定义命令
-～/.bashrc添加
+～/.bashrc添加 
 
-    alias wh="/gold"
+    alias wh="cd /gold"
 zsh需要在.zshrc里添加
 
+全局 /etc/bash.bashrc
 ## 文件权限
 
     chmod 777 -R a.md 权限顺序为所有者，用户组，其他人
@@ -183,12 +184,38 @@ zsh需要在.zshrc里添加
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     chsh -s /bin/zsh  #将zsh替换为你的默认shell
 
+国内安装
+
+    sudo sh -c "$(curl -fsSL https://gitee.com/pocmon/ohmyzsh/raw/master/tools/install.sh)"
+
 查看是否在使用
 
     echo $0
+ohmyzsh配置文件
 
-## 用户添加sudo 
-    
+    cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+
+## 用户
+创建
+
+    sudo adduser test
+
+添加sudo 
+
+    sudo usermod -aG sudo test
+验证
+
+    sudo -l -U test
+删除用户
+
+    userdel -r chai
+退出其他终端
+
+    who am i
+    who -up #获得pid
+    kill [pid]
+安装软件
+
     apt install sudo
 先cd到/etc/sudoers下，修改权限。找到root ALL = (ALL) ALL这一行，在下一行加入username ALL = (ALL) ALL，再复原权限
 
@@ -267,7 +294,7 @@ hostkey： ssh协议进行双向密钥对验证，hostkey为服务器密钥对�
 
 ---
 
-ssh 服务配置
+ssh 服务配置，修改端口号等
 
     /etc/ssh/sshd_config
 
@@ -301,7 +328,7 @@ ssh启动错误,错误记录 Failed to start OpenSSH Server daemon
 
 验证公钥的文件位置，内容包含登录密钥对中的 `.pub` 相应的文件夹在 `/root/.ssh`，多密钥须写入文件的内容
 
-    AuthorizedKeysFile .ssh/authorized_keys
+    AuthorizedKeysFile ~/.ssh/authorized_keys  # ~/.ssh/authorized_keys
 
 ---
 
@@ -330,10 +357,14 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
 
 ---
 
-从远程同步文件到本地 可添加 --exclude="node_modules"
+从远程同步文件到本地 可添加 --exclude="node_modules"  39.101.197.185
 
+                                                [from]                  [to]
     rsync -av -e "ssh -p2222" root@10.0.112.10:/root/cast/docker  /root/cast
     rsync -av -e "ssh -i (key position) -p2222" root@10.0.112.10:/root/cast/docker  /root/cast
+
+    rsync -av -e "ssh -p22222" /gold/erp/frontend/dist chai@39.101.197.185:/gold/erp/
+    rsync -av -e "ssh -p22222" docker chai@39.101.197.185:/usr/local/bin
 
 ---
 
@@ -343,7 +374,7 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
 
 ## scp工具
 
-发送文件到远程地址（参数互换为下载远程文件到本地）
+发送文件到远程地址（参数互换为下载远程文件到本地）39.101.197.185
 
     scp -P2222 /root/from.sql root@10.0.112.10:/root/to.sql 
     scp -P2222 /root/from.sql root@10.0.112.10:/root #指定目标文件名或只指定文件夹，只需要目标端口 
@@ -433,7 +464,7 @@ vue导入插件时，使用angula6末尾加上/ngx
 
     systemctl restart docker
 
-## 镜像
+## docker镜像
 搜索
 
     docker search nginx
@@ -458,6 +489,9 @@ vue导入插件时，使用angula6末尾加上/ngx
 进入docker容器的控制台
 
     docker exec -it glory_macs_aip_web_1  /bin/bash
+镜像改名
+
+    docker tag erp_web:v1.14 erp_web:v1.14origin
 docker参数
 
     -p 端口映射，主机：容器
@@ -500,13 +534,17 @@ docker-compose停止并删除容器
 删除容器
 
     docker rm -f [id]
-容器互相文件
+非root运行
+
+    newgrp docker
+容器互相传文件
 
     docker cp [container_name]:[path] [main_path] # from to
     docker cp [main_path] [container_name]:[path]
 docker-compose安装
 
-    sudo curl -L https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    sudo curl -L https://get.daocloud.io/docker/compose/releases/download/v2.23.3/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+
     sudo chmod +x /usr/local/bin/docker-compose #赋予权限
     docker-compose --version #测试
 
@@ -619,6 +657,7 @@ root建好库后，向其他用户授权
     show grants for 'root'@'localhost';
 常规操作
 
+    mysql -h39.101.197.185 -uroot -pnewerp2023 连接到远程数据库
     show databases; #显示所有数据库
     flush privileges; #刷新权限
     select user(); #当前用户
@@ -647,11 +686,15 @@ root建好库后，向其他用户授权
 ## 导入mysql
 
 下载数据库 glory_macs-3320  glory_macs_aip-3321 user_micro_service-3322 ldq-moc-3324 ldq-aip-3325
-额外参数 --max_allowed_packet
+额外参数 --max_allowed_packet  39.101.197.185
 
     mysqldump -uroot -pcastztb2018@ -h127.0.0.1 -P3320 --databases glory_macs > /root/cast/src/glory_macs/sql/dump.sql
+备份
 
-    mysqldump -uroot -pnewerp2023 -h127.0.0.1 -P8082 --databases ERP > /gold/erp/sql/dump.sql 
+    mysqldump -uroot -pnewerp2023 -h39.101.197.185 -P8082 --databases ERP > /gold/erp/sql/dump.sql 
+导入，覆盖时不要带databases参数
+
+    mysqldump -uroot -pnewerp2023 -h127.0.0.1 -P8082 < /gold/erp/sql/dump.sql
 
 ---
 
@@ -666,6 +709,9 @@ root建好库后，向其他用户授权
 指定venv环境
 
     python3 -m venv /app
+关闭gunicorn服务
+
+    kill -HUP 10
 激活venv
 
     source /app/bin/activate
