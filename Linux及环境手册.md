@@ -633,10 +633,16 @@ connectport目标端口
 
     /usr/bin/mysqld_safe
     /etc/mysql/mysql.conf.d
+显示全部用户
+
+    use mysql;
+    select user from user;
 创建用户
 
     create user 'li'@'%' identified by 'newerp2023';
+指定日志
 
+    log_error = /var/log/mysql/error.log  #并创建目录，配置文件在/etc/mysql/my.cnf
 下载地址，并安装
 
     wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb
@@ -695,6 +701,7 @@ root建好库后，向其他用户授权
 导入，覆盖时不要带databases参数
 
     mysqldump -uroot -pnewerp2023 -h127.0.0.1 -P8082 < /gold/erp/sql/dump.sql
+    mysql -uroot -pnewerp2023 -h127.0.0.1 -P8082 < /gold/erp/sql/dump.sql #8.0
 
 ---
 
@@ -721,6 +728,9 @@ root建好库后，向其他用户授权
 安装uwsgi
 
     python3 -m pip install uwsgi  #需要安装 gcc 和 apt install python3-dev
+指定源安装包
+
+    pip3 install numpy -i https://pypi.tuna.tsinghua.edu.cn/simple
 # 未完
 
  docker-slim 对镜像进行瘦身 https://zhuanlan.zhihu.com/p/608032293
@@ -729,7 +739,4 @@ root建好库后，向其他用户授权
 
 
 
-问题
-1 web没有port端口映射，只有一个expose
-
-
+1 pip3 install numpy -i https://pypi.tuna.tsinghua.edu.cn/simple
