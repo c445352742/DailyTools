@@ -279,7 +279,7 @@ ohmyzsh配置文件
 压缩：tar -zcvf [目标gz文件] [源目录或文件]
 
     eg:tar -zcvf name.tar.gz dir/files  
-解压：tar -zxvf [源gz文件] [解压目录]
+解压：tar -zxvf [源gz文件] -C [解压目录]
 
     eg:tar -zxvf name.tar.gz -C 解压地址
 
@@ -421,8 +421,63 @@ cli.js 211行
 
     npm install --save vue@latest
 
+# FRP
+## 下载
+
+    wget https://github.com/fatedier/frp/releases/download/v0.48.0/frp_0.48.0_linux_amd64.tar.gz
+## 安装
+/usr/frp内，复制对应的frpc和frps，出现command not found修改权限，客户端对照使用
+配置文件
+服务端
+
+    [common]
+    bind_addr = 0.0.0.0
+    bind_port = 8090 #frp服务对接端口
+客户端
+
+    [common]
+    server_addr = 39.101.197.185
+    server_port = 8090 #frp服务对接端口
+
+    #[ssh] # 名字自己定义
+    #type = tcp
+    #local_ip = 127.0.0.1 #本机ip
+    #local_port = 22 # 本机提供服务入口
+    #remote_port = 6000  # 向公网机提交请求入口
+按配置文件启动
+
+    sudo ./frps -c ./frps.ini
+配置成系统服务
+
+创建服务配置文件
+
+    sudo vi /lib/systemd/system/frps.service
+内容
+
+    [Unit]
+    Description=Frp Server Service
+    After=network.target
+
+    [Service]
+    Type=simple
+    User=nobody
+    Restart=on-failure
+    RestartSec=5s
+    ExecStart=/usr/frp/frps -c /usr/frp/frps.ini
+
+    [Install]
+    WantedBy=multi-user.target
+    WantedBy=graphical.target 
+开机启动
+    sudo systemctl enable frps
+
+
 # 项目
 
+## nodejs
+命令行运行时可以输出堆栈
+
+    node --trace-warnings app.js
 ## ionic
 酌情修改id：capacitor.config
 
@@ -466,6 +521,9 @@ vue导入插件时，使用angula6末尾加上/ngx
 
 ## docker镜像
 搜索
+
+    docker search nginx
+下载
 
     docker search nginx
 换源 新建或修改/etc/docker/daemon.json
