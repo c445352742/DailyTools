@@ -359,7 +359,7 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
 
 从远程同步文件到本地 可添加 --exclude="node_modules"  39.101.197.185
 
-                                                [from]                  [to]
+                                            [from]                  [to]
     rsync -av -e "ssh -p2222" root@10.0.112.10:/root/cast/docker  /root/cast
     rsync -av -e "ssh -i (key position) -p2222" root@10.0.112.10:/root/cast/docker  /root/cast
 
@@ -525,7 +525,7 @@ vue导入插件时，使用angula6末尾加上/ngx
     docker search nginx
 下载
 
-    docker search nginx
+    docker pull nginx
 换源 新建或修改/etc/docker/daemon.json
 
     {"registry-mirrors": ["https://registry.cn-hangzhou.aliyuncs.com"]}
@@ -547,6 +547,7 @@ vue导入插件时，使用angula6末尾加上/ngx
 进入docker容器的控制台
 
     docker exec -it glory_macs_aip_web_1  /bin/bash
+    docker exec -it glory_macs_aip_web_1  sh # mqtt没有bash
 镜像改名
 
     docker tag erp_web:v1.14 erp_web:v1.14origin
@@ -608,6 +609,20 @@ docker-compose安装
 
 # iptables
 
+# iot
+安装mysql及mqtt客户端
+
+    pip install pymysql
+    pip install paho-mqtt
+查看软件及协议版本
+    mosquitto -h
+
+# Crontab
+脚本例子，全部使用绝对路径
+
+    #!/usr/bin/env bash
+    #
+    source /app/bin/activate && /app/bin/python /app/backend/debian.py
 # Git
 
 ## 设置用户
@@ -684,7 +699,12 @@ connectport目标端口
     systemctl restart nginx
     nginx -s reload
 开机启动
+
     systemctl enable nginx
+关闭开机启动
+
+    systemctl disable nginx
+
 
 # mysql
 常用目录
@@ -719,6 +739,15 @@ root建好库后，向其他用户授权
 显示root权限
 
     show grants for 'root'@'localhost';
+修改root密码.先在mysqlworkbench中，edit->preferences->sql editor最下 safe updates 关掉，然后重连
+
+    use mysql;
+    update user set authentication_string='' where user = 'root';
+    alter user 'root'@'localhost' identified by '1324';
+新建空库，首先设置user表，复制自已有库，然后django自动创建auth相关表
+
+    python manage.py migrate # 创建表
+    python manage.py makemigrations # make命令为创建django中auth相关文件
 常规操作
 
     mysql -h39.101.197.185 -uroot -pnewerp2023 连接到远程数据库
