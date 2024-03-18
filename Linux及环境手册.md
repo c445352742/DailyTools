@@ -109,14 +109,30 @@ deb文件安装，两种
 ## 端口占用
 查看端口1000的占用
 
-    lsof -i:1000
+    netstat -ntlp # tcp
+    netstat -tunlp # tcp/udp
+
+## sudo安全路径
+
+    sudo -l
+## 网速查看
+安装nload后查看网速
+
+    sudo apt install nload
+    sudo nload -m
 ## 内存处理器占用
 
     top -c # shift+m 按内存占用排序。shift+p 按cpu排序
+    shift + < # 前后翻页
 ---
+## 修改电脑名称
+
+    sudo hostnamectl set-hostname sjz
 
 信息解释
 
+    连续按m
+    内存占用显示切换
     %cpu
     0.3% us — 用户空间占用CPU的百分比。
     66.7% sy — 内核空间占用CPU的百分比。
@@ -125,7 +141,19 @@ deb文件安装，两种
     0.0% wa — IO等待占用CPU的百分比
     0.0% hi — 硬中断（Hardware IRQ）占用CPU的百分比
     0.0% si — 软中断（Software Interrupts）占用CPU的百分比
+
 按1,显示多核的使用。按b或x,加亮排序列。
+
+显示僵尸进程
+    ps -A|grep defunct
+    ps -ef|grep defunct |more #显示父进程
+
+## 环境变量地址
+
+    /etc/profile
+    /etc/environment
+    ~/.zshrc
+    ~/.bashrc
 
 ## 当前目录和文件大小
 
@@ -166,6 +194,10 @@ zsh需要在.zshrc里添加
     ls -ld xxx 显示指定目录的权限
 
 ## 安装gui    
+修改时区
+
+    sudo timedatectl set-timezone Asia/Shanghai
+## 安装gui    
     
     sudo apt -y install task-gnome-desktop
 
@@ -195,7 +227,7 @@ ohmyzsh配置文件
 
     cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 
-## 用户
+## 用户 Dt66506180.
 创建
 
     sudo adduser test
@@ -203,6 +235,8 @@ ohmyzsh配置文件
 添加sudo 
 
     sudo usermod -aG sudo test
+切换用户 
+    login test
 验证
 
     sudo -l -U test
@@ -232,13 +266,17 @@ ohmyzsh配置文件
     yum clean all
     yum makecache
 
-## 修改源（debian）
+## 换源（debian）
 向 /etc/apt/sources.list 文件添加
 华为源
 
     deb http://mirrors.huaweicloud.com/debian/ bookworm main non-free-firmware
     deb http://mirrors.huaweicloud.com/debian-security bookworm-security main non-free-firmware
     deb-src http://mirrors.huaweicloud.com/debian-security bookworm-security main non-free-firmware
+
+    sudo echo "deb http://mirrors.huaweicloud.com/debian/ bookworm main non-free-firmware" >> sources.list
+    sudo echo "deb http://mirrors.huaweicloud.com/debian-security bookworm-security main non-free-firmware">> sources.list
+    sudo echo "deb-src http://mirrors.huaweicloud.com/debian-security bookworm-security main non-free-firmware">> sources.list
 
 中科大源
     deb https://mirrors.ustc.edu.cn/debian/ bookworm main non-free non-free-firmware contrib
@@ -269,6 +307,8 @@ ohmyzsh配置文件
     deb-src https://mirrors.163.com/debian/ bookworm-updates main non-free non-free-firmware contrib  
     deb https://mirrors.163.com/debian/ bookworm-backports main non-free non-free-firmware contrib  
     deb-src https://mirrors.163.com/debian/ bookworm-backports main non-free non-free-firmware contrib  
+
+
 
 更新包信息
     
@@ -365,6 +405,8 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
 
     rsync -av -e "ssh -p22222" /gold/erp/frontend/dist chai@39.101.197.185:/gold/erp/
     rsync -av -e "ssh -p22222" docker chai@39.101.197.185:/usr/local/bin
+    指令参数
+    rsync -rlDvz -e "ssh -p22222" docker chai@39.101.197.185:/usr/local/bin
 
 ---
 
@@ -376,7 +418,7 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
 
 发送文件到远程地址（参数互换为下载远程文件到本地）39.101.197.185
 
-    scp -P2222 /root/from.sql root@10.0.112.10:/root/to.sql 
+    scp -P2222 /root/from.sql root@10.0.112.10:/root/to.sql -l 8192 # 限速8192k
     scp -P2222 /root/from.sql root@10.0.112.10:/root #指定目标文件名或只指定文件夹，只需要目标端口 
 
 ## nvm
@@ -471,6 +513,9 @@ cli.js 211行
 开机启动
     sudo systemctl enable frps
 
+修改配置文件后同步
+    sudo systemctl daemon-reload
+
 
 # 项目
 
@@ -486,6 +531,13 @@ cli.js 211行
     ionic capacitor sync android 修改源码后连同原生插件同步到安卓项目
     npx cap sync android / ionic cap sync
     ionic capacitor run android -l --external 热更新
+
+生成apk 
+测试版
+
+    亖 -> build -> build bundle/apk -> build apks
+发布版
+    亖 -> build -> generate signed bundle/apk -> 一路next
 
 安卓报错：***Could not find method compile() for arguments [{name=barcodescanner-release-2.1.5, ext=aar}]。***
 将node_modules\phonegap-plugin-barcodescanner\src\android\barcodescanner.gradle
@@ -535,6 +587,12 @@ vue导入插件时，使用angula6末尾加上/ngx
 删除镜像
 
     docker rmi [ID]
+镜像历史
+    docker image history 34d4bf4486
+
+镜像命令行启动
+    docker run -it --init  base:v3
+
 提交修改镜像**后缀：`镜像名：tag`**
 
     docker commit [ID] cast:v2.0.0
@@ -818,12 +876,37 @@ root建好库后，向其他用户授权
 指定源安装包
 
     pip3 install numpy -i https://pypi.tuna.tsinghua.edu.cn/simple
-# 未完
-
- docker-slim 对镜像进行瘦身 https://zhuanlan.zhihu.com/p/608032293
-
- sudo cat /proc/version
 
 
 
-1 pip3 install numpy -i https://pypi.tuna.tsinghua.edu.cn/simple
+# 端口使用 
+
+| 端口号      | 占用 |使用设备
+| ----------- | ----------- | ----------- |
+
+| 8000/12000      | 阿里云配置       | 阿里云开发端口|
+|  | erp |  |
+| 80      | 报备系统       | 阿里云|
+| 8081   |  django服务 |阿里云 本地 工厂|
+| 8082   |  mysql服务 |阿里云 本地 工厂|
+|  |  |  |
+|  | iot |  |
+| 8084   | mqtt breaker  | 阿里云 本地 工厂|
+| 8085   | monitor  | 阿里云 本地 工厂|
+| 8086   | django  | 阿里云 本地 工厂|
+| 8087   | mysql  | 阿里云 本地 工厂|
+|  | 工具 |  |
+| 8000   | 开发vite服务 erp| 本地 |
+| 8001   | 开发vite服务 iot| 本地 |
+| 8022   |ssh |  阿里云 工厂 |
+| 8080  | debug模式启动网页docker测试服务 |阿里云 本地 工厂|
+| 8089   | frp代理 | 阿里云 本地|
+| 8090   | frp服务 | 阿里云 本地 工厂|
+| 8091   | frp主页 | 阿里云 账号chai 密码 4453|
+| 22222   |ssh | 阿里云 |
+
+单机设定 左右格式
+温度不要弹框
+曲线日期同假日
+曲线 多重弹框
+pre 单页直接进，默认跳转
