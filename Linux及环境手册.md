@@ -166,6 +166,10 @@ deb文件安装，两种
 ## 查看pid
 
     ps -A
+## 实时网速
+安装nload后：
+
+    nload ens33
 
 ## 环境变量（debian）
 常用命令
@@ -209,6 +213,14 @@ zsh需要在.zshrc里添加
 
     sudo systemctl set-default graphical.target 
 
+禁止休眠
+    sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+
+休眠状态
+    systemctl status sleep.target
+    
+todesk启动等功能
+    systemctl status todeskd
 ## zsh
 安装zsh及oh my zsh配置
 
@@ -895,18 +907,24 @@ root建好库后，向其他用户授权
 | 8085   | monitor  | 阿里云 本地 工厂|
 | 8086   | django  | 阿里云 本地 工厂|
 | 8087   | mysql  | 阿里云 本地 工厂|
+| 内网8000   | mqtt 客户端  | 阿里云 本地 工厂|
 |  | 工具 |  |
 | 8000   | 开发vite服务 erp| 本地 |
 | 8001   | 开发vite服务 iot| 本地 |
-| 8022   |ssh |  阿里云 工厂 |
+| 8022   |ssh |  阿里云 -> 工厂 |
 | 8080  | debug模式启动网页docker测试服务 |阿里云 本地 工厂|
 | 8089   | frp代理 | 阿里云 本地|
 | 8090   | frp服务 | 阿里云 本地 工厂|
 | 8091   | frp主页 | 阿里云 账号chai 密码 4453|
 | 22222   |ssh | 阿里云 |
 
-单机设定 左右格式
-温度不要弹框
-曲线日期同假日
-曲线 多重弹框
-pre 单页直接进，默认跳转
+# 交付mqtt
+dtu 左侧菜单，设备管理->设备列表->编辑->联网设置 不能绑定网关  dm->网关详情->更多->编辑->有人云透传 关闭
+
+设备端 点击dtu->参数配置
+1 工作模式 选 mqtt 不带阿里云的选项
+2 地址 39.101.197.185
+3 端口号8084
+4 mqtt用户名 dt 密码 dt123456
+5 提交话题1 /update/taiyuan，qos选2 订阅话题1 /exe/taiyuan，qos选2 /exe/和/update/是不可以改的，只有taiyuan可以自定义
+6 串口，根据触摸屏端口设置
