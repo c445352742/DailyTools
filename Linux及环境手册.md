@@ -1,5 +1,14 @@
 # Linux(命令默认平台:centos)
 
+## 查找执行命令的程序
+    
+    which python3
+## 查找文件
+
+    find . -name 'mana*.*'
+## python虚拟环境
+
+    /app/bin/vpython/bin/activate
 ## 广播
 wall命令
 
@@ -536,6 +545,10 @@ cli.js 211行
 
     node --trace-warnings app.js
 ## ionic
+修改app图标。android\app\src\main\res\drawable 内，添加自定义图片。 在以下属性根据ide提示修改为图片路径
+
+    android:icon="@drawable/dt"
+    android:roundIcon="@drawable/dt"
 酌情修改id：capacitor.config
 
     ionic capacitor add android 安装ionic安卓项目
@@ -565,6 +578,9 @@ vue导入插件时，使用angula6末尾加上/ngx
 安卓默认屏蔽http，需要glory_wms_app\android\app\src\main\AndroidManifest.xml 下application 标签添加
 
     android:usesCleartextTraffic="true"
+
+## websocket
+django安装daphone和channels
 
 # Docker
 
