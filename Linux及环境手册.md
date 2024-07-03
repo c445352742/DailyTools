@@ -740,10 +740,16 @@ docker-compose安装
     密钥命令格式
 	git clone ssh://git@provider.com:userName/projectName.git --config core.sshCommand="ssh -i ~/location/to/private_ssh_key"。 对于需要固定key的仓库可以直接写入.git/config 一劳永逸
 	克隆命令
-    git clone  ssh://git@49.233.182.33:9922/cast/ldq_scada.git /home/user //克隆到指定位置
+    git clone ssh://git@49.233.182.33:9922/cast/ldq_scada.git /home/user //克隆到指定位置
 查看远程地址
 
     git remote -v
+分支合并
+
+    git merge master
+将main的新增修改添加到Branch2
+
+    git rebase Main --onto Branch2
 删除缓存信息
 
     git fetch --prune origin
