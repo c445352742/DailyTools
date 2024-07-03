@@ -700,6 +700,7 @@ docker-compose安装
 
     pip install pymysql
     pip install paho-mqtt
+    pip install aiomqtt  # 第二选择
 查看软件及协议版本
     mosquitto -h
 
@@ -895,6 +896,7 @@ root建好库后，向其他用户授权
 激活venv
 
     source /app/bin/activate
+    source /app/bin/vpython/bin/activate #vm
 退出venv
 
     deactivate
@@ -905,8 +907,13 @@ root建好库后，向其他用户授权
 
     pip3 install numpy -i https://pypi.tuna.tsinghua.edu.cn/simple
 
+# pip
+查看包
 
+    pip list | grep  asyncio
+更新包
 
+    pip install --upgrade asyncio-mqtt
 # 端口使用 
 
 | 端口号      | 占用 |使用设备
@@ -923,7 +930,7 @@ root建好库后，向其他用户授权
 | 8085   | monitor  | 阿里云 本地 工厂|
 | 8086   | django  | 阿里云 本地 工厂|
 | 8087   | mysql  | 阿里云 本地 工厂|
-| 内网8000   | mqtt 客户端  | 阿里云 本地 工厂|
+| docker内网8000   | mqtt 客户端  | 阿里云 本地 工厂|
 |  | 工具 |  |
 | 8000   | 开发vite服务 erp| 本地 |
 | 8001   | 开发vite服务 iot| 本地 |
@@ -933,7 +940,10 @@ root建好库后，向其他用户授权
 | 8090   | frp服务 | 阿里云 本地 工厂|
 | 8091   | frp主页 | 阿里云 账号chai 密码 4453|
 | 22222   |ssh | 阿里云 |
+# 估算
 
+系统对接为开发时间的1/4到1/2
+每个满页面约需要 4-6天，含后台和调试
 # 交付mqtt
 dtu 左侧菜单，设备管理->设备列表->编辑->联网设置 不能绑定网关  dm->网关详情->更多->编辑->有人云透传 关闭
 
