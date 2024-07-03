@@ -120,6 +120,9 @@ deb文件安装，两种
 
     netstat -ntlp # tcp
     netstat -tunlp # tcp/udp
+## 根据端口查进程
+
+    lsof -i :8080
 
 ## sudo安全路径
 
@@ -257,6 +260,7 @@ ohmyzsh配置文件
 
     sudo usermod -aG sudo test
 切换用户 
+
     login test
 验证
 
@@ -331,9 +335,13 @@ ohmyzsh配置文件
 
 
 
-更新包信息
+## 更新包信息
     
     apt update 
+
+## 修改密码
+
+    passwd
 
 ## 压缩和解压
 
@@ -530,13 +538,19 @@ cli.js 211行
 
     [Install]
     WantedBy=multi-user.target
-    WantedBy=graphical.target 
-开机启动
-    sudo systemctl enable frps
+    WantedBy=graphical.target
 
+开机启动
+
+    sudo systemctl enable frps
 修改配置文件后同步
+
     sudo systemctl daemon-reload
 
+80端口权限，对应修改
+
+    [Service]
+    User=root
 
 # 项目
 
@@ -588,6 +602,8 @@ django安装daphone和channels
 
     curl -fsSL https://get.docker.com -o get-docker.sh
     sudo sh get-docker.sh
+### 阿里云安装
+    sudo apt install docker.io
 ## 权限
 添加docker用户组
 
