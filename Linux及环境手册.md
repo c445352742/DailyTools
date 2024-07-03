@@ -91,7 +91,9 @@ dhcp
 ## 操作系统信息
 
     cat /proc/version
+## 修改主机名称
 
+    sudo vi /etc/hostname
 ## deb安装（debian）
 deb文件安装，两种
     
@@ -251,7 +253,7 @@ ohmyzsh配置文件
 
     cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 
-## 用户 Dt66506180.
+## 用户 Dt66506180. sudo用户 debug 1233
 创建
 
     sudo adduser test
@@ -265,6 +267,9 @@ ohmyzsh配置文件
 验证
 
     sudo -l -U test
+修改密码
+
+    passwd
 删除用户
 
     userdel -r chai
@@ -338,10 +343,6 @@ ohmyzsh配置文件
 ## 更新包信息
     
     apt update 
-
-## 修改密码
-
-    passwd
 
 ## 压缩和解压
 
@@ -426,16 +427,16 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
 
 ---
 
-从远程同步文件到本地 可添加 --exclude="node_modules"  39.101.197.185
+从远程同步文件到本地 可添加 --exclude="node_modules"  39.ip.ip.ip
 
                                             [from]                  [to]
     rsync -av -e "ssh -p2222" root@10.0.112.10:/root/cast/docker  /root/cast
     rsync -av -e "ssh -i (key position) -p2222" root@10.0.112.10:/root/cast/docker  /root/cast
 
-    rsync -av -e "ssh -p22222" /gold/erp/frontend/dist chai@39.101.197.185:/gold/erp/
-    rsync -av -e "ssh -p22222" docker chai@39.101.197.185:/usr/local/bin
+    rsync -av -e "ssh -p22222" /gold/erp/frontend/dist chai@39.ip.ip.ip:/gold/erp/
+    rsync -av -e "ssh -p22222" docker chai@39.ip.ip.ip:/usr/local/bin
     指令参数
-    rsync -rlDvz -e "ssh -p22222" docker chai@39.101.197.185:/usr/local/bin
+    rsync -rlDvz -e "ssh -p22222" docker chai@39.ip.ip.ip:/usr/local/bin
 
 ---
 
@@ -445,8 +446,9 @@ vscode key登录。key文件地址正反斜杠均可，地址包含空格时必�
 
 ## scp工具
 
-发送文件到远程地址（参数互换为下载远程文件到本地）39.101.197.185
+发送文件到远程地址（参数互换为下载远程文件到本地）39.ip.ip.ip
 
+    scp -P2222 /root/from.sql root@10.0.112.10:/root/to.sql
     scp -P2222 /root/from.sql root@10.0.112.10:/root/to.sql -l 8192 # 限速8192k
     scp -P2222 /root/from.sql root@10.0.112.10:/root #指定目标文件名或只指定文件夹，只需要目标端口 
 
@@ -507,7 +509,7 @@ cli.js 211行
 客户端
 
     [common]
-    server_addr = 39.101.197.185
+    server_addr = 39.ip.ip.ip
     server_port = 8090 #frp服务对接端口
 
     #[ssh] # 名字自己定义
@@ -704,9 +706,11 @@ docker-compose停止并删除容器
     docker cp [main_path] [container_name]:[path]
 docker-compose安装
 
-    sudo curl -L https://get.daocloud.io/docker/compose/releases/download/v2.23.3/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    sudo curl -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
     sudo chmod +x /usr/local/bin/docker-compose #赋予权限
+    
+    sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose #全局软连接
     docker-compose --version #测试
 
 # iptables
@@ -859,7 +863,7 @@ root建好库后，向其他用户授权
     python manage.py makemigrations # make命令为创建django中auth相关文件
 常规操作
 
-    mysql -h39.101.197.185 -uroot -pnewerp2023 连接到远程数据库
+    mysql -h39.ip.ip.ip -uroot -pnewerp2023 连接到远程数据库
     show databases; #显示所有数据库
     flush privileges; #刷新权限
     select user(); #当前用户
@@ -888,12 +892,12 @@ root建好库后，向其他用户授权
 ## 导入mysql
 
 下载数据库 glory_macs-3320  glory_macs_aip-3321 user_micro_service-3322 ldq-moc-3324 ldq-aip-3325
-额外参数 --max_allowed_packet  39.101.197.185
+额外参数 --max_allowed_packet  39.ip.ip.ip
 
     mysqldump -uroot -pcastztb2018@ -h127.0.0.1 -P3320 --databases glory_macs > /root/cast/src/glory_macs/sql/dump.sql
 备份
 
-    mysqldump -uroot -pnewerp2023 -h39.101.197.185 -P8082 --databases ERP > /gold/erp/sql/dump.sql 
+    mysqldump -uroot -pnewerp2023 -h39.ip.ip.ip -P8082 --databases ERP > /gold/erp/sql/dump.sql 
 导入，覆盖时不要带databases参数
 
     mysqldump -uroot -pnewerp2023 -h127.0.0.1 -P8082 < /gold/erp/sql/dump.sql
@@ -971,7 +975,7 @@ dtu 左侧菜单，设备管理->设备列表->编辑->联网设置 不能绑定
 
 设备端 点击dtu->参数配置
 1 工作模式 选 mqtt 不带阿里云的选项
-2 地址 39.101.197.185
+2 地址 39.ip.ip.ip
 3 端口号8084
 4 mqtt用户名 dt 密码 dt123456
 5 提交话题1 /update/taiyuan，qos选2 订阅话题1 /exe/taiyuan，qos选2 /exe/和/update/是不可以改的，只有taiyuan可以自定义
