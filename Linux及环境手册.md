@@ -270,6 +270,7 @@ ohmyzsh配置文件
 修改密码
 
     passwd
+    sudo passwd debug #修改其他用户密码
 删除用户
 
     userdel -r chai
