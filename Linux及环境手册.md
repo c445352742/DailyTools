@@ -2,7 +2,7 @@
 
 ## 磁盘
 sda 表示系统检测到的第一个硬盘设备，sd为前缀，abc作为序号
-lsblk 查看磁盘及分区大小
+lsblk 查看磁盘分区大小及挂载点
 ### 查看工具
 1 lshw 需要先安装lshw，查看物理硬盘大小
 
@@ -10,9 +10,12 @@ lsblk 查看磁盘及分区大小
 或者使用 fdisk
 
     sudo fdisk -l /dev/sda
-### 查看raid
+### 查看软件raid
 
     cat /proc/mdstat
+### 查看硬件raid
+
+    lspci | grep -i raid
 ## 查找执行命令的程序
     
     which python3
@@ -277,7 +280,7 @@ ohmyzsh配置文件
 
     cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 
-## 用户 Dt66506180. sudo用户 debug 1233
+## 用户 Dt66506180 sudo用户 debug 445352742
 创建
 
     sudo adduser test
@@ -342,6 +345,7 @@ ohmyzsh配置文件
     deb-src https://mirrors.ustc.edu.cn/debian/ bookwomain non-free non-free-firmware contrib
     deb https://mirrors.ustc.edu.cn/debian/ bookworm-backports main non-free non-free-firmware contrib
     deb-src https://mirrors.ustc.edu.cn/debian/ bookworm-backports main non-free non-free-firmware contrib
+
 网易源
 
     echo "deb https://mirrors.163.com/debian/ bookworm main non-free non-free-firmware contrib" >> sources.list
