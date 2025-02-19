@@ -1,5 +1,18 @@
 # Linux(命令默认平台:centos)
 
+## 磁盘
+sda 表示系统检测到的第一个硬盘设备，sd为前缀，abc作为序号
+lsblk 查看磁盘及分区大小
+### 查看工具
+1 lshw 需要先安装lshw，查看物理硬盘大小
+
+    sudo lshw -class disk
+或者使用 fdisk
+
+    sudo fdisk -l /dev/sda
+### 查看raid
+
+    cat /proc/mdstat
 ## 查找执行命令的程序
     
     which python3
@@ -102,6 +115,10 @@ deb文件安装，两种
 ## apt删除包
 
     apt remove --purge
+## apt清理包
+
+    sudo apt clean  # 删除所有已下载的 .deb 包
+    sudo apt autoremove  # 清理无用的依赖包
 ## 输入法
 
     字体：sudo apt install fonts-wqy-zenhei
@@ -156,8 +173,14 @@ deb文件安装，两种
     0.0% hi — 硬中断（Hardware IRQ）占用CPU的百分比
     0.0% si — 软中断（Software Interrupts）占用CPU的百分比
 
+    virt 虚拟内存总量，是进程可访问范围内的空间总和，包括代码，文件等
+    res 常驻内存，被占用的内存
+    shr 共享内存
 按1,显示多核的使用。按b或x,加亮排序列。
 
+查看内存
+
+    free
 显示僵尸进程
     ps -A|grep defunct
     ps -ef|grep defunct |more #显示父进程
@@ -176,7 +199,9 @@ deb文件安装，两种
 ## 硬盘占用查看
 
     df -h 
+## 清理/var文件夹
 
+    sudo journalctl --vacuum-time=7d  # 保留最近7天的日志
 ## 查看pid
 
     ps -A
@@ -211,8 +236,7 @@ zsh需要在.zshrc里添加
     ls -l 显示所有文件和目录的权限，可添加名字显示指定文件的权限
     ls -ld xxx 显示指定目录的权限
 
-## 安装gui    
-修改时区
+## 修改时区    
 
     sudo timedatectl set-timezone Asia/Shanghai
 ## 安装gui    
@@ -595,6 +619,9 @@ vue导入插件时，使用angula6末尾加上/ngx
 安卓默认屏蔽http，需要glory_wms_app\android\app\src\main\AndroidManifest.xml 下application 标签添加
 
     android:usesCleartextTraffic="true"
+ionic ws报错：
+
+    将报错行的java源码删掉。内容为重新启动断开的ws对象。在app重启时，该对象未创建导致闪退
 
 ## websocket
 django安装daphone和channels
@@ -634,6 +661,9 @@ django安装daphone和channels
 删除镜像
 
     docker rmi [ID]
+删除停止的容器、未使用的镜像和网络
+
+    docker system prune -a
 镜像历史
     docker image history 34d4bf4486
 
@@ -764,6 +794,8 @@ docker-compose安装
 删除远程分支
 
     git push origin --delete dev
+删除分支
+    git branch -d branch_name
 查看远程分支
 
     git branch -a
@@ -910,6 +942,14 @@ root建好库后，向其他用户授权
 
     sh tool/alter_db.sh glory_macs sql/dump.sql
 
+# mysql
+导出表
+
+    mysqldump -uroot -p1234 -h3.3.3.185 -P8087 iot > /gold/iot_main/iot/sql/dump.sql
+    mysqldump -uroot -p1234 -h3.3.3.185 -P8087 iot dtu > /gold/iot_main/iot/sql/dump.sql
+导入库或表
+
+    mysql -uroot -p1234 -h3.3.3.185 -P8087 --database iot < /gold/iot_main/iot/sql/dump.sql 
 # Django
 安装venv
     
